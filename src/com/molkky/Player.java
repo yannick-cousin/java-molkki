@@ -3,7 +3,6 @@ package com.molkky;
 public class Player {
   private String name;
   private int score = 0;
-  private int tour = 1;
   private int lancerSansPoints = 0;
   private boolean win = false;
   private boolean endgame = false;
@@ -22,17 +21,13 @@ public class Player {
     return score;
   }
 
-  public int getTour() {
-    return tour;
+  public int getLancerSansPoints() {
+    return lancerSansPoints;
   }
 
   public boolean getWin() { return win; }
 
   public boolean getEndGame() {return endgame; }
-
-  private void setTour(int tour) {
-    this.tour = tour;
-  }
 
   private void shouldEndGame() {
     if(score == 50) {
@@ -51,14 +46,13 @@ public class Player {
   public void lancer(int[] quilles) {
     if (quilles.length == 1) {
       score += quilles[0];
+      lancerSansPoints = 0;
     } else if (quilles.length > 1) {
       score += quilles.length;
+      lancerSansPoints = 0;
     } else {
       lancerSansPoints += 1;
     }
     shouldEndGame();
-    setTour(getTour() + 1);
   }
-
-
 }

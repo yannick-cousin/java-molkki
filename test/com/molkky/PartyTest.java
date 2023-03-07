@@ -127,4 +127,51 @@ public class PartyTest {
 		// TEST
 		assertEquals(scoresExpected, scoreEndRound);
 	}
+
+	@Test
+	public void aPlayerDontTouchForTwoRoundButItsOk() {
+		// Reproduction bug :
+		// Quand je rates 2 lancés, puis un qui est bon, puis un raté, je perds la partie
+
+		// Création d'un jeu de lancers
+		int[] quillesOne = {4,9};
+		int[] quillesTwo = {11};
+		int[] quillesThree = {3,4,7,9,5};
+		int[] quillesFour = {1,2,4,5,7,8,10,11};
+		int[] quillesNothing = new int[0];
+
+		// Création des joueurs
+		Player yannick = new Player("Yannick");
+		Player vivien = new Player("Vivien");
+
+		// Création de la partie
+		Party test = new Party();
+
+		// Ajout des joueurs à la partie
+		test.addPlayer(yannick);
+		test.addPlayer(vivien);
+
+		// Début de la partie, deux round raté pour le second joueur
+		test.play(quillesTwo);
+		test.play(quillesNothing);
+		test.play(quillesTwo);
+		test.play(quillesNothing);
+
+		assertEquals(2, test.getPlayers().get(1).getLancerSansPoints());
+
+		// Premier round réussi pour le second joueur
+		test.play(quillesTwo);
+		test.play(quillesFour);
+
+		// Le lancer réussi doit remettre le compteur de lancer non réussi à 0
+		assertEquals(0, test.getPlayers().get(1).getLancerSansPoints());
+
+		// Nouveau coup raté de la part du second joueur
+		test.play(quillesTwo);
+		test.play(quillesNothing);
+
+		assertEquals(1, test.getPlayers().get(1).getLancerSansPoints());
+		assertEquals(false, test.getPlayers().get(1).getEndGame());
+		//
+	}
 }

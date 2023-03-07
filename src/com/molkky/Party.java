@@ -7,7 +7,6 @@ import java.util.HashMap;
 public class Party {
 	// private Player[] players = new Player[0];
 	private ArrayList<Player> players = new ArrayList<Player>();
-	private int currentRound = 1;
 	private int idxPlayer = 0;
 	private boolean finDePartie = false;
 
@@ -17,10 +16,6 @@ public class Party {
 	//GET SET
 	public ArrayList<Player> getPlayers() {
 		return players;
-	}
-
-	public int getCurrentRound() {
-		return currentRound;
 	}
 
 	public int getIdxPlayer() {
@@ -52,7 +47,6 @@ public class Party {
 	public void play(int[] quilles) {
 		if(idxPlayer+1 > players.size()) {
 			idxPlayer = 0;
-			currentRound++;
 		}
 		players.get(idxPlayer).lancer(quilles);
 		if(players.get(idxPlayer).getEndGame()) {
